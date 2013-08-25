@@ -101,10 +101,3 @@ ClutchGenerator.prototype.buildSkeleton = function buildSkeleton() {
   });
 
 };
-
-
-
-// ClutchGenerator.prototype.projectfiles = function projectfiles() {
-//   this.copy('editorconfig', '.editorconfig');
-//   this.copy('jshintrc', '.jshintrc');
-// };
