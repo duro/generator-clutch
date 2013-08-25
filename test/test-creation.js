@@ -20,7 +20,7 @@ describe('clutch generator', function () {
     var _this = this;
 
     var expected = [
-      'package.json', '.editorconfig', '.jshintrc', '.travis.yml'
+      'package.json', '.editorconfig', '.jshintrc', '.travis.yml', 'Gruntfile.js'
     ];
 
     helpers.mockPrompt(this.app, {
