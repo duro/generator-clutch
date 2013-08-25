@@ -1,9 +1,9 @@
 'use strict';
-var util = require('util');
-var path = require('path');
-var yeoman = require('yeoman-generator');
-
+var util      = require('util');
+var path      = require('path');
+var yeoman    = require('yeoman-generator');
 var GitHubApi = require('github');
+
 var github = new GitHubApi({
   version: '3.0.0'
 });
@@ -58,24 +58,53 @@ ClutchGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
+ClutchGenerator.prototype.app = function app() {
+  debugger;
+};
+
 ClutchGenerator.prototype.userInfo = function userInfo() {
-  var done = this.async();
+  var self = this
+    , done = this.async();
 
   githubUserInfo(this.githubUser, function (res) {
     /*jshint camelcase:false */
-    this.realname = res.name;
-    this.email = res.email;
-    this.githubUrl = res.html_url;
+    self.realname = res.name;
+    self.email = res.email;
+    self.githubUrl = res.html_url;
     done();
-  }.bind(this));
+  });
 };
 
-ClutchGenerator.prototype.app = function app() {
-  this.directory('skeleton', '.');
-  this.copy('_package.json', 'package.json');
+ClutchGenerator.prototype.fetchBoilerplate = function fetchBoilerplate() {
+  var self = this
+    , done = this.async();
+
+  this.remote('duro', 'clutch-boilerplate', function(err, remote) {
+    self.sourceRoot(remote.cachePath);
+    done();
+  });
 };
 
-ClutchGenerator.prototype.projectfiles = function projectfiles() {
-  this.copy('editorconfig', '.editorconfig');
-  this.copy('jshintrc', '.jshintrc');
+ClutchGenerator.prototype.buildSkeleton = function buildSkeleton() {
+  var self = this;
+
+  this.directory('.','.', function(data, filePath, filename){
+    // Transform the package.json
+    if (filePath == path.join(self.sourceRoot(), 'package.json')) {
+      data              = JSON.parse(data);
+      data.name         = self.appName;
+      data.author       = self.realname;
+      data.description  = self.appDescription;
+      return JSON.stringify(data, null, 2);
+    }
+    return data;
+  });
+
 };
+
+
+
+// ClutchGenerator.prototype.projectfiles = function projectfiles() {
+//   this.copy('editorconfig', '.editorconfig');
+//   this.copy('jshintrc', '.jshintrc');
+// };
