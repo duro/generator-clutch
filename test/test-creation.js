@@ -41,8 +41,6 @@ describe('bbb subgenerator', function(){
   var expected = [
       ".bowerrc",
       "bower.json",
-      "Gruntfile.js",
-      "index.html",
       "app/config.js",
       "app/app.js",
       "app/main.js"

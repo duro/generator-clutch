@@ -54,7 +54,7 @@ BBBGenerator.prototype.fetchBoilerplate = function fetchBoilerplate() {
   var self = this
     , done = this.async();
 
-  this.remote('backbone-boilerplate', 'backbone-boilerplate', 'wip', function(err, remote) {
+  this.remote('duro', 'clutch-backbone-boilerplate', function(err, remote) {
     self.sourceRoot(remote.cachePath);
     done();
   });
