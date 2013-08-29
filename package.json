@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "github": "~0.1.8",
-    "yeoman-generator": "~0.13.0"
+    "yeoman-generator": "~0.13.0",
+    "inflect": "~0.3.0"
   },
   "devDependencies": {
     "mocha": "~1.12.0",

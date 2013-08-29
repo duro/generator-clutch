@@ -1,23 +1,8 @@
 'use strict';
-var util      = require('util');
-var path      = require('path');
-var yeoman    = require('yeoman-generator');
-var GitHubApi = require('github');
-
-var github = new GitHubApi({
-  version: '3.0.0'
-});
-
-var githubUserInfo = function (name, cb) {
-  github.user.getFrom({
-    user: name
-  }, function (err, res) {
-    if (err) {
-      throw err;
-    }
-    cb(JSON.parse(JSON.stringify(res)));
-  });
-};
+var util      = require('util')
+  , path      = require('path')
+  , yeoman    = require('yeoman-generator')
+  , github    = require('../lib/github');
 
 var ClutchGenerator = module.exports = function ClutchGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
@@ -58,15 +43,11 @@ ClutchGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
-ClutchGenerator.prototype.app = function app() {
-  debugger;
-};
-
 ClutchGenerator.prototype.userInfo = function userInfo() {
   var self = this
     , done = this.async();
 
-  githubUserInfo(this.githubUser, function (res) {
+  github.githubUserInfo(this.githubUser, function (res) {
     /*jshint camelcase:false */
     self.realname = res.name;
     self.email = res.email;
