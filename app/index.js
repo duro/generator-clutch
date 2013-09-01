@@ -32,12 +32,17 @@ ClutchGenerator.prototype.askFor = function askFor() {
   },{
     name: 'appDescription',
     message: 'How your you describe your project?'
+  },{
+    name: 'version',
+    message: 'What is the starting version number you\'d like to use?',
+    default: '0.1.0'
   }];
 
   this.prompt(prompts, function (props) {
     this.githubUser = props.githubUser;
     this.appName = props.appName;
     this.appDescription = props.appDescription;
+    this.version = props.version;
 
     cb();
   }.bind(this));
@@ -68,17 +73,6 @@ ClutchGenerator.prototype.fetchBoilerplate = function fetchBoilerplate() {
 
 ClutchGenerator.prototype.buildSkeleton = function buildSkeleton() {
   var self = this;
-
-  this.directory('.','.', function(data, filePath, filename){
-    // Transform the package.json
-    if (filePath == path.join(self.sourceRoot(), 'package.json')) {
-      data              = JSON.parse(data);
-      data.name         = self.appName;
-      data.author       = self.realname;
-      data.description  = self.appDescription;
-      return JSON.stringify(data, null, 2);
-    }
-    return data;
-  });
+  this.directory('.','.');
 
 };
