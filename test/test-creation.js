@@ -16,7 +16,8 @@ before(function(done){
     helpers.mockPrompt(this.app, {
       'githubUser': 'duro',
       'appName': 'test-app',
-      'appDescription': 'This is a test app'
+      'appDescription': 'This is a test app',
+      'version': '0.666.0'
     });
 
     this.app.options['skip-install'] = true;
@@ -39,17 +40,26 @@ describe('clutch generator', function () {
 
 describe('bbb subgenerator', function(){
   var expected = [
-      ".bowerrc",
-      "bower.json",
-      "app/config.js",
-      "app/app.js",
-      "app/main.js"
-    ];
+        ".bowerrc",
+        "bower.json",
+        "app/config.js",
+        "app/app.js",
+        "app/main.js"
+      ]
+    , appName = 'testApp'
+    , promptConfig = {
+        'githubUser': 'duro',
+        'appDescription': 'This is a test app',
+        'version': '0.666.0'
+      };
 
   before(function (done) {
     this.bbb = helpers.createGenerator('clutch:bbb', [
       '../../bbb'
-    ], ['testApp']);
+    ], [appName]);
+
+    helpers.mockPrompt(this.bbb, promptConfig);
+
     this.bbb.options['skip-install'] = true;
     this.bbb.run({}, function () {
       done();
@@ -59,4 +69,11 @@ describe('bbb subgenerator', function(){
   it('creates expected files', function(){
     helpers.assertFiles(expected);
   });
+
+  it('modifed the package.json properly', function(){
+    var pkg = JSON.parse(this.bbb.read(path.join(this.bbb.destinationRoot(), 'package.json')));
+    pkg.should.have.property('name').and.equal(appName);
+    pkg.should.have.property('description').and.equal(promptConfig.appDescription);
+    pkg.should.have.property('version').and.equal(promptConfig.version);
+  })
 });
