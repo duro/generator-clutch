@@ -7,13 +7,13 @@ var util      = require('util')
 _.str     = require('underscore.string')
 
 var ControllerGenerator = module.exports = function ControllerGenerator(args, options, config) {
-  // By calling `NamedBase` here, we get the argument to the subgenerator call
-  // as `this.name`.
-  yeoman.generators.NamedBase.apply(this, arguments);
-  this.controllerName = this.name;
+  yeoman.generators.Base.apply(this, arguments);
+  if (args[0]) {
+    this.controllerName = this.name = args[0];
+  }
 };
 
-util.inherits(ControllerGenerator, yeoman.generators.NamedBase);
+util.inherits(ControllerGenerator, yeoman.generators.Base);
 
 ControllerGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
@@ -23,7 +23,7 @@ ControllerGenerator.prototype.askFor = function askFor() {
 
   var prompts = [];
 
-  if (!this.controllerName) {
+  if (!this.name) {
     prompts.push({
       name: 'controllerName',
       message: 'What would you like to name your controller?'
@@ -39,22 +39,33 @@ ControllerGenerator.prototype.askFor = function askFor() {
 
   this.prompt(prompts, function (props) {
     if (!this.controllerName) {
-      this.controllerName = props.controllerName;
+      this.controllerName = this.name = props.controllerName;
     }
     this.createTemplate = props.createTemplate;
     cb();
   }.bind(this));
 };
 
-ControllerGenerator.prototype.generateController = function generateController() {
+ControllerGenerator.prototype.processName = function processName() {
   var nameArray = this.controllerName.split('/');
 
   this.controllerName       = nameArray.pop();
-  this.controllerFileName   = this.controllerName + '_controller.js';
-  this.controllerClassName  = _.str.classify(this.controllerName + '_controller');
-  this.controllerDir        = path.join('server/app/controllers', nameArray.join('/'));
+  this.dirPrefix            = nameArray.join('/');
+};
 
-  this.mkdir(this.controllerDir);
-  this.template('_controller.js', path.join(this.controllerDir, this.controllerFileName));
-  debugger;
+ControllerGenerator.prototype.generateController = function generateController() {
+  this.controllerFileName   = this.controllerName + '_controller.js';
+  this.controllerClassName  = _.str.classify(this.name + '_controller');
+  this.controllerDirPath    = path.join('server/app/controllers', this.dirPrefix);
+
+  this.mkdir(this.controllerDirPath);
+  this.template('_controller.js', path.join(this.controllerDirPath, this.controllerFileName));
+};
+
+ControllerGenerator.prototype.generateTemplate = function generateTemplate() {
+  if (this.createTemplate) {
+    this.templateDirPath = path.join('server/templates/', this.dirPrefix, this.controllerName);
+    this.mkdir(this.templateDirPath);
+    this.template('_template.html', path.join(this.templateDirPath, 'index.html'));
+  }
 };
