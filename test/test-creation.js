@@ -1,10 +1,10 @@
 /*global describe, beforeEach, it*/
 'use strict';
 
-var path    = require('path');
-var helpers = require('yeoman-generator').test;
-var should  = require('should');
-var _       = require('lodash');
+var path    = require('path')
+  , helpers = require('yeoman-generator').test
+  , should  = require('should')
+  , _       = require('lodash');
 
 before(function(done){
   helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
