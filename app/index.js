@@ -15,7 +15,7 @@ var ClutchGenerator = module.exports = function ClutchGenerator(args, options, c
     this.destinationRoot(path.join(this.destinationRoot(), 'client/statics'));
     this.installDependencies({ bower: false, skipInstall: options['skip-install'] });
 
-    // Switch back to root
+    // Switch back to root to allow for better testability
     this.destinationRoot(path.join(this.destinationRoot(), '../../'));
   });
 

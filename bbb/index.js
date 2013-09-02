@@ -17,6 +17,9 @@ var BBBGenerator = module.exports = function BBBGenerator(args, options, config)
 
   this.on('end', function () {
     this.installDependencies({ skipInstall: options['skip-install'] });
+
+    // Set destination root back to project root to help with testability
+    this.destinationRoot('../../../');
   });
 
   this.appName  = this.name;
