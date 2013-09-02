@@ -83,18 +83,5 @@ BBBGenerator.prototype.fetchBoilerplate = function fetchBoilerplate() {
 
 BBBGenerator.prototype.buildApp = function buildSkeleton() {
   var self = this;
-
-  this.directory('.','.', function(data, filePath, filename){
-    // Transform the package.json
-    if (filePath == path.join(self.sourceRoot(), 'package.json')) {
-      data              = JSON.parse(data);
-      data.name         = self.appName;
-      data.author       = self.realname;
-      data.description  = self.appDescription;
-      data.version      = self.version;
-      return JSON.stringify(data, null, 2);
-    }
-    return data;
-  });
-
+  this.directory('.','.');
 };
