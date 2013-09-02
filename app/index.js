@@ -8,7 +8,15 @@ var ClutchGenerator = module.exports = function ClutchGenerator(args, options, c
   yeoman.generators.Base.apply(this, arguments);
 
   this.on('end', function () {
+    // Install root dependencies
     this.installDependencies({ bower: false, skipInstall: options['skip-install'] });
+
+    // Install client statics dependencies
+    this.destinationRoot(path.join(this.destinationRoot(), 'client/statics'));
+    this.installDependencies({ bower: false, skipInstall: options['skip-install'] });
+
+    // Switch back to root
+    this.destinationRoot(path.join(this.destinationRoot(), '../../'));
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
