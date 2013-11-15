@@ -15,7 +15,7 @@ describe('bbb subgenerator', function(){
         "app/main.js"
       ]
     , appName = 'testApp'
-    , testRoot = path.join(__dirname, 'temp/client/apps/', appName)
+    , testRoot = path.join(__dirname, 'temp/client/', appName)
     , promptConfig = {
         'githubUser': 'duro',
         'appDescription': 'This is a test app',

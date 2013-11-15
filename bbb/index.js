@@ -19,11 +19,11 @@ var BBBGenerator = module.exports = function BBBGenerator(args, options, config)
     this.installDependencies({ skipInstall: options['skip-install'] });
 
     // Set destination root back to project root to help with testability
-    this.destinationRoot('../../../');
+    this.destinationRoot('../../');
   });
 
   this.appName  = this.name;
-  this.destPath = util.format('client/apps/%s', this.appName);
+  this.destPath = util.format('client/%s', this.appName);
 };
 
 util.inherits(BBBGenerator, yeoman.generators.NamedBase);

@@ -9,14 +9,7 @@ var ClutchGenerator = module.exports = function ClutchGenerator(args, options, c
 
   this.on('end', function () {
     // Install root dependencies
-    this.installDependencies({ bower: false, skipInstall: options['skip-install'] });
-
-    // Install client statics dependencies
-    this.destinationRoot(path.join(this.destinationRoot(), 'client/statics'));
-    this.installDependencies({ bower: false, skipInstall: options['skip-install'] });
-
-    // Switch back to root to allow for better testability
-    this.destinationRoot(path.join(this.destinationRoot(), '../../'));
+    this.installDependencies({ bower: true, skipInstall: options['skip-install'] });
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
