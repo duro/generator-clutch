@@ -32,7 +32,7 @@ ClutchGenerator.prototype.askFor = function askFor() {
     message: 'What would you like to call your app?'
   },{
     name: 'appDescription',
-    message: 'How your you describe your project?'
+    message: 'How would you describe your project?'
   },{
     name: 'version',
     message: 'What is the starting version number you\'d like to use?',
