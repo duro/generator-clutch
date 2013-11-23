@@ -27,6 +27,22 @@ var NgModuleGenerator = module.exports = function NgModuleGenerator(args, option
 
 util.inherits(NgModuleGenerator, yeoman.generators.NamedBase);
 
+NgModuleGenerator.prototype.askFor = function askFor() {
+  var cb = this.async();
+
+  var prompts = [{
+    type: 'confirm',
+    name: 'includeUIRouter',
+    message: 'Should I include ui.router as a dependency?',
+    default: true
+  }];
+
+  this.prompt(prompts, function (props) {
+    this.includeUIRouter     = props.includeUIRouter;
+    cb();
+  }.bind(this));
+};
+
 NgModuleGenerator.prototype.create = function create() {
   this.mkdir(this.destPath);
   this.destinationRoot(path.join(this.destinationRoot(), this.destPath));
