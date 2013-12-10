@@ -2,6 +2,23 @@
 
 This Yeoman generator pack has a number of built in generators for workign inside the Clutch Framework.
 
+## Install
+
+Since this module is not in the NPM registry yet, please follow the following steps to get installed:
+
+1. Clone down the repo
+
+    `$ git clone git@github.com:duro/generator-clutch.git`
+
+2. Use NPM link to link it to your global NPM library
+
+    ```
+    $ cd generator-clutch
+    $ npm link
+    ```
+
+You should now be able to use all the commands below:
+
 ## Generators
 
 ### `yo clutch`
