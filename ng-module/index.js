@@ -17,7 +17,7 @@ var NgModuleGenerator = module.exports = function NgModuleGenerator(args, option
 
   this.destPath     = util.format('app/%s', this.name);
   this.pkg          = JSON.parse(this.readFileAsString(path.join(this.destinationRoot(), 'package.json')));
-  this.moduleName   = this.pkg.name + '.' + this.name;
+  this.moduleName   = this.name;
 
   this.on('end', function () {
     // Set destination root back to project root to help with testability
@@ -35,10 +35,38 @@ NgModuleGenerator.prototype.askFor = function askFor() {
     name: 'includeUIRouter',
     message: 'Should I include ui.router as a dependency?',
     default: true
+  },{
+    type: 'confirm',
+    name: 'includeListView',
+    message: 'Should I include list view?',
+    default: true
+  },{
+    type: 'confirm',
+    name: 'includeCreateView',
+    message: 'Should I include create view?',
+    default: true
+  },{
+    type: 'confirm',
+    name: 'includeEditView',
+    message: 'Should I include edit view?',
+    default: true
+  },{
+    name: 'iconClass',
+    message: 'Icon CSS Class'
+  }, {
+    name: 'moduleLabel',
+    message: 'Module Label'
   }];
+
+
 
   this.prompt(prompts, function (props) {
     this.includeUIRouter     = props.includeUIRouter;
+    this.includeListView     = props.includeListView;
+    this.includeCreateView   = props.includeCreateView;
+    this.includeEditView     = props.includeEditView;
+    this.iconClass           = props.iconClass;
+    this.moduleLabel         = props.moduleLabel;
     cb();
   }.bind(this));
 };
@@ -48,4 +76,25 @@ NgModuleGenerator.prototype.create = function create() {
   this.destinationRoot(path.join(this.destinationRoot(), this.destPath));
 
   this.template('module.js', this.name + '.js');
+
+
+  if (this.includeCreateView || this.includeEditView || this.includeListView) {
+    this.mkdir('states');
+    this.mkdir('templates');
+
+    if (this.includeListView) {
+      this.template('state.list.js', 'states/' + this.name + '.list.js');
+      this.template('state.list.html', 'templates/list.html');
+    }
+    if (this.includeCreateView) {
+      this.template('state.create.js', 'states/' + this.name + '.create.js');
+    }
+    if (this.includeEditView) {
+      this.template('state.edit.js', 'states/' + this.name + '.edit.js');
+    }
+    if (this.includeCreateView || this.includeEditView) {
+      this.template('state.form.html', 'templates/form.html');
+    }
+
+  }
 };

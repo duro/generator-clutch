@@ -1,0 +1,41 @@
+<form name="userForm" class="form-horizontal" uni-submit="saveUser()" novalidate>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="widget-box">
+          <div class="widget-title">
+            <span class="icon">
+              <i class="icon-align-justify"></i>
+            </span>
+            <h5><%= moduleLabel %> Information</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <div  class="form-group"
+                  ng-class="{'has-error': userForm.$attempted && userForm.firstName.$invalid}">
+              <label class="control-label" for="first-name">First Name</label>
+              <div class="controls">
+                <input  ng-model="user.firstName"
+                        required
+                        name="firstName"
+                        type="text"
+                        class="form-control input-sm" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="widget-box">
+          <div class="widget-title">
+            <span class="icon"><i class="icon-save"></i></span>
+            <h5>Create New <%= moduleLabel %></h5>
+          </div>
+          <div class="widget-content nopadding">
+            <div class="form-actions">
+              <button id="submit-button" type="submit" class="btn btn-primary btn-sm">Save</button> or <a class="text-danger" ng-href="#/admin/<%= moduleName %>">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
